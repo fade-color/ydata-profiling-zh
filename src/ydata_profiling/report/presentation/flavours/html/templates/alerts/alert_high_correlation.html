@@ -1,4 +1,4 @@
 <a href="#pp_var_{{ alert.anchor_id }}">
     <code>{{ alert.column_name }}</code>
-</a> 与 <code>{{ alert.values['fields'][0] }}</code> 的相关性很高（{{ alert.values['corr'] }}）{% if alert.values['fields'] | length > 1 %}，并且与另外 <abbr title="{{ alert.values['fields'] | join(', ') }}">{{ alert.values['fields'] | length - 1 }} 个字段</abbr> 也有较高的相关性{% endif %}
+</a> 列与 <code>{{ alert.values['fields'][0] }}</code> 列的相关性很高（{{ alert.values['corr'] }}）{% if alert.values['fields'] | length > 1 %}，并且与另外 <abbr title="{{ alert.values['fields'] | join(', ') }}">{{ alert.values['fields'] | length - 1 }} 个字段</abbr> 也有较高的相关性{% endif %}
 {# (ρ = {{ alert.values['correlation'] | fmt_numeric }}) #}

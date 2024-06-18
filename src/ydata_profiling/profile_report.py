@@ -382,13 +382,13 @@ class ProfileReport(SerializeReport, ExpectationsReport):
                 suffix = output_file.suffix
                 output_file = output_file.with_suffix(".html")
                 warnings.warn(
-                    f"Extension {suffix} not supported. For now we assume .html was intended. "
-                    f"To remove this warning, please use .html or .json."
+                    f"不支持扩展名 {suffix}。目前我们假定使用的是 .html。"
+                    f"要消除此警告，请使用 .html 或 .json。"
                 )
 
         disable_progress_bar = not self.config.progress_bar
         with tqdm(
-            total=1, desc="Export report to file", disable=disable_progress_bar
+            total=1, desc="将报告导出到文件", disable=disable_progress_bar
         ) as pbar:
             output_file.write_text(data, encoding="utf-8")
             pbar.update()
@@ -409,7 +409,7 @@ class ProfileReport(SerializeReport, ExpectationsReport):
         report = self.report
 
         with tqdm(
-            total=1, desc="Render HTML", disable=not self.config.progress_bar
+            total=1, desc="渲染 HTML", disable=not self.config.progress_bar
         ) as pbar:
             html = HTMLReport(copy.deepcopy(report)).render(
                 nav=self.config.html.navbar_show,
@@ -438,7 +438,7 @@ class ProfileReport(SerializeReport, ExpectationsReport):
 
         with tqdm(
             total=1,
-            desc="Render widgets",
+            desc="渲染 widgets",
             disable=not self.config.progress_bar,
             leave=False,
         ) as pbar:
@@ -475,7 +475,7 @@ class ProfileReport(SerializeReport, ExpectationsReport):
         description = self.description_set
 
         with tqdm(
-            total=1, desc="Render JSON", disable=not self.config.progress_bar
+            total=1, desc="渲染 JSON", disable=not self.config.progress_bar
         ) as pbar:
             description_dict = format_summary(description)
             description_dict = encode_it(description_dict)
