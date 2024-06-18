@@ -15,7 +15,7 @@ def compose(functions: Sequence[Callable]) -> Callable:
     def func(f: Callable, g: Callable) -> Callable:
         def func2(*x) -> Any:
             res = g(*x)
-            if type(res) == bool:
+            if isinstance(res, bool):
                 return f(*x)
             else:
                 return f(*res)

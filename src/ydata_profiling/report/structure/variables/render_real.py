@@ -22,7 +22,7 @@ def render_real(config: Settings, summary: dict) -> dict:
     template_variables = render_common(config, summary)
     image_format = config.plot.image_format
 
-    name = "Real number (&Ropf;)"
+    name = "实数 (&Ropf;)"
 
     # Top
     info = VariableInfo(
@@ -37,37 +37,37 @@ def render_real(config: Settings, summary: dict) -> dict:
     table1 = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": "n_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": "p_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Infinite",
+                "name": "无穷值",
                 "value": fmt(summary["n_infinite"]),
                 "alert": "n_infinite" in summary["alert_fields"],
             },
             {
-                "name": "Infinite (%)",
+                "name": "无穷值 (%)",
                 "value": fmt_percent(summary["p_infinite"]),
                 "alert": "p_infinite" in summary["alert_fields"],
             },
             {
-                "name": "Mean",
+                "name": "平均值",
                 "value": fmt_numeric(
                     summary["mean"], precision=config.report.precision
                 ),
@@ -80,37 +80,37 @@ def render_real(config: Settings, summary: dict) -> dict:
     table2 = Table(
         [
             {
-                "name": "Minimum",
+                "name": "最小值",
                 "value": fmt_numeric(summary["min"], precision=config.report.precision),
                 "alert": False,
             },
             {
-                "name": "Maximum",
+                "name": "最大值",
                 "value": fmt_numeric(summary["max"], precision=config.report.precision),
                 "alert": False,
             },
             {
-                "name": "Zeros",
+                "name": "零值",
                 "value": fmt(summary["n_zeros"]),
                 "alert": "n_zeros" in summary["alert_fields"],
             },
             {
-                "name": "Zeros (%)",
+                "name": "零值 (%)",
                 "value": fmt_percent(summary["p_zeros"]),
                 "alert": "p_zeros" in summary["alert_fields"],
             },
             {
-                "name": "Negative",
+                "name": "负值",
                 "value": fmt(summary["n_negative"]),
                 "alert": False,
             },
             {
-                "name": "Negative (%)",
+                "name": "负值 (%)",
                 "value": fmt_percent(summary["p_negative"]),
                 "alert": False,
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },
@@ -126,13 +126,13 @@ def render_real(config: Settings, summary: dict) -> dict:
                 [x[1] for x in summary.get("histogram", [])],
             ),
             image_format=image_format,
-            alt="Mini histogram",
+            alt="迷你直方图",
         )
     else:
         mini_histo = Image(
             mini_histogram(config, *summary["histogram"]),
             image_format=image_format,
-            alt="Mini histogram",
+            alt="迷你直方图",
         )
 
     template_variables["top"] = Container(
@@ -142,104 +142,104 @@ def render_real(config: Settings, summary: dict) -> dict:
     quantile_statistics = Table(
         [
             {
-                "name": "Minimum",
+                "name": "最小值",  # Minimum value
                 "value": fmt_numeric(summary["min"], precision=config.report.precision),
             },
             {
-                "name": "5-th percentile",
+                "name": "第5百分位数",  # 5th percentile
                 "value": fmt_numeric(summary["5%"], precision=config.report.precision),
             },
             {
-                "name": "Q1",
+                "name": "第一四分位数",  # Q1，也叫25-th percentile，第25百分位数
                 "value": fmt_numeric(summary["25%"], precision=config.report.precision),
             },
             {
-                "name": "median",
+                "name": "中位数",  # Median，也叫50-th percentile，第50百分位数
                 "value": fmt_numeric(summary["50%"], precision=config.report.precision),
             },
             {
-                "name": "Q3",
+                "name": "第三四分位数",  # Q3，也叫75-th percentile，第75百分位数
                 "value": fmt_numeric(summary["75%"], precision=config.report.precision),
             },
             {
-                "name": "95-th percentile",
+                "name": "第95百分位数",  # 95th percentile
                 "value": fmt_numeric(summary["95%"], precision=config.report.precision),
             },
             {
-                "name": "Maximum",
+                "name": "最大值",  # Maximum value
                 "value": fmt_numeric(summary["max"], precision=config.report.precision),
             },
             {
-                "name": "Range",
+                "name": "极差",  # Range = Maximum - Minimum
                 "value": fmt_numeric(
                     summary["range"], precision=config.report.precision
                 ),
             },
             {
-                "name": "Interquartile range (IQR)",
+                "name": "四分位距",  # Interquartile range (IQR)
                 "value": fmt_numeric(summary["iqr"], precision=config.report.precision),
             },
         ],
-        name="Quantile statistics",
+        name="分位数统计",
         style=config.html.style,
     )
 
     descriptive_statistics = Table(
         [
             {
-                "name": "Standard deviation",
+                "name": "标准差",
                 "value": fmt_numeric(summary["std"], precision=config.report.precision),
             },
             {
-                "name": "Coefficient of variation (CV)",
+                "name": "变异系数 (CV)",
                 "value": fmt_numeric(summary["cv"], precision=config.report.precision),
             },
             {
-                "name": "Kurtosis",
+                "name": "峰度",
                 "value": fmt_numeric(
                     summary["kurtosis"], precision=config.report.precision
                 ),
             },
             {
-                "name": "Mean",
+                "name": "均值",
                 "value": fmt_numeric(
                     summary["mean"], precision=config.report.precision
                 ),
             },
             {
-                "name": "Median Absolute Deviation (MAD)",
+                "name": "中位数绝对偏差 (MAD)",
                 "value": fmt_numeric(summary["mad"], precision=config.report.precision),
             },
             {
-                "name": "Skewness",
+                "name": "偏度",
                 "value": fmt_numeric(
                     summary["skewness"], precision=config.report.precision
                 ),
                 "class": "alert" if "skewness" in summary["alert_fields"] else "",
             },
             {
-                "name": "Sum",
+                "name": "总和",
                 "value": fmt_numeric(summary["sum"], precision=config.report.precision),
             },
             {
-                "name": "Variance",
+                "name": "方差",
                 "value": fmt_numeric(
                     summary["variance"], precision=config.report.precision
                 ),
             },
             {
-                "name": "Monotonicity",
+                "name": "单调性",
                 "value": fmt_monotonic(summary["monotonic"]),
             },
         ],
-        name="Descriptive statistics",
+        name="描述性统计",
         style=config.html.style,
     )
 
     statistics = Container(
         [quantile_statistics, descriptive_statistics],
         anchor_id=f"{varid}statistics",
-        name="Statistics",
+        name="统计数据",
         sequence_type="grid",
     )
 
@@ -250,23 +250,23 @@ def render_real(config: Settings, summary: dict) -> dict:
             [x[1] for x in summary.get("histogram", [])],
         )
         bins = len(summary["histogram"][0][1]) - 1 if "histogram" in summary else 0
-        hist_caption = f"<strong>Histogram with fixed size bins</strong> (bins={bins})"
+        hist_caption = f"<strong>固定bins尺寸的直方图</strong> (bins={bins})"
     else:
         hist_data = histogram(config, *summary["histogram"])
-        hist_caption = f"<strong>Histogram with fixed size bins</strong> (bins={len(summary['histogram'][1]) - 1})"
+        hist_caption = f"<strong>固定bins尺寸的直方图</strong> (bins={len(summary['histogram'][1]) - 1})"
 
     hist = Image(
         hist_data,
         image_format=image_format,
-        alt="Histogram",
+        alt="直方图",
         caption=hist_caption,
-        name="Histogram",
+        name="直方图",
         anchor_id=f"{varid}histogram",
     )
 
     fq = FrequencyTable(
         template_variables["freq_table_rows"],
-        name="Common values",
+        name="常见值",
         anchor_id=f"{varid}common_values",
         redact=False,
     )
@@ -275,19 +275,19 @@ def render_real(config: Settings, summary: dict) -> dict:
         [
             FrequencyTable(
                 template_variables["firstn_expanded"],
-                name=f"Minimum {config.n_extreme_obs} values",
+                name=f"最小的 {config.n_extreme_obs} 个值",
                 anchor_id=f"{varid}firstn",
                 redact=False,
             ),
             FrequencyTable(
                 template_variables["lastn_expanded"],
-                name=f"Maximum {config.n_extreme_obs} values",
+                name=f"最大的 {config.n_extreme_obs} 个值",
                 anchor_id=f"{varid}lastn",
                 redact=False,
             ),
         ],
         sequence_type="tabs",
-        name="Extreme values",
+        name="极值",
         anchor_id=f"{varid}extreme_values",
     )
 

@@ -1,5 +1,4 @@
-"""Logic for alerting the user on possibly problematic patterns in the data (e.g. high number of zeros , constant
-values, high correlations)."""
+"""在数据中警告用户可能存在问题模式的逻辑（例如，大量零值，常数值，高相关性）。"""
 from enum import Enum, auto, unique
 from typing import Any, Dict, List, Optional, Set
 
@@ -11,14 +10,14 @@ from ydata_profiling.model.correlations import perform_check_correlation
 
 
 def fmt_percent(value: float, edge_cases: bool = True) -> str:
-    """Format a ratio as a percentage.
+    """将比率格式化为百分比。
 
     Args:
-        edge_cases: Check for edge cases?
-        value: The ratio.
+        edge_cases: 是否检查边缘情况
+        value: 百分比
 
     Returns:
-        The percentage with 1 point precision.
+        百分比，精确到小数点后1位。
     """
     if edge_cases and round(value, 3) == 0 and value > 0:
         return "< 0.1%"
@@ -33,58 +32,58 @@ class AlertType(Enum):
     """Alert types"""
 
     CONSTANT = auto()
-    """This variable has a constant value."""
+    """该变量具有一个恒定的值。"""
 
     ZEROS = auto()
-    """This variable contains zeros."""
+    """该变量包含零值。"""
 
     HIGH_CORRELATION = auto()
-    """This variable is highly correlated."""
+    """该变量具有高度相关性。"""
 
     HIGH_CARDINALITY = auto()
-    """This variable has a high cardinality."""
+    """该变量具有高基数。"""
 
     UNSUPPORTED = auto()
-    """This variable is unsupported."""
+    """该变量不受支持。"""
 
     DUPLICATES = auto()
-    """This variable contains duplicates."""
+    """该变量包含重复项。"""
 
     SKEWED = auto()
-    """This variable is highly skewed."""
+    """该变量的偏度很大。"""
 
     IMBALANCE = auto()
-    """This variable is imbalanced."""
+    """该变量不均衡。"""
 
     MISSING = auto()
-    """This variable contains missing values."""
+    """该变量含有缺失值。"""
 
     INFINITE = auto()
-    """This variable contains infinite values."""
+    """该变量包含无穷值。"""
 
     TYPE_DATE = auto()
-    """This variable is likely a datetime, but treated as categorical."""
+    """该变量可能是日期时间，但被视为分类变量。"""
 
     UNIQUE = auto()
-    """This variable has unique values."""
+    """该变量具有唯一值。"""
 
     CONSTANT_LENGTH = auto()
-    """This variable has a constant length."""
+    """该变量具有恒定的长度。"""
 
     REJECTED = auto()
-    """Variables are rejected if we do not want to consider them for further analysis."""
+    """如果我们不想对变量进行进一步分析，就会剔除该变量。"""
 
     UNIFORM = auto()
-    """The variable is uniformly distributed."""
+    """该变量是均匀分布的。"""
 
     NON_STATIONARY = auto()
-    """The variable is a non-stationary series."""
+    """该变量是一个非平稳序列。"""
 
     SEASONAL = auto()
-    """The variable is a seasonal time series."""
+    """该变量是一个季节性时间序列。"""
 
     EMPTY = auto()
-    """The DataFrame is empty."""
+    """DataFrame为空。"""
 
 
 class Alert:
@@ -123,18 +122,18 @@ class Alert:
             num = len(self.values["fields"])
             title = ", ".join(self.values["fields"])
             corr = self.values["corr"]
-            name = f'<abbr title="This variable has a high {corr} correlation with {num} fields: {title}">HIGH CORRELATION</abbr>'
+            name = f'<abbr title="该变量与 {num} 个字段的 {corr} 相关性很高: {title}">高度相关</abbr>'
         return name
 
     def _get_description(self) -> str:
-        """Return a human level description of the alert.
+        """返回该警报的人性化描述。
 
         Returns:
-            str: alert description
+            str: 警报描述
         """
         alert_type = self.alert_type.name
         column = self.column_name
-        return f"[{alert_type}] alert on column {column}"
+        return f"[{alert_type}] 列 {column} 上的警报"
 
     def __repr__(self):
         return self._get_description()
@@ -156,7 +155,7 @@ class ConstantLengthAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] has a constant length"
+        return f"[{self.column_name}] 列具有恒定的长度"
 
 
 class ConstantAlert(Alert):
@@ -175,7 +174,7 @@ class ConstantAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] has a constant value"
+        return f"[{self.column_name}] 列具有恒定的值"
 
 
 class DuplicatesAlert(Alert):
@@ -195,9 +194,9 @@ class DuplicatesAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            return f"Dataset has {self.values['n_duplicates']} ({fmt_percent(self.values['p_duplicates'])}) duplicate rows"
+            return f'数据集中有 {self.values["n_duplicates"]} 个 ({fmt_percent(self.values["p_duplicates"])}) 重复行'
         else:
-            return "Dataset has duplicated values"
+            return "数据集有重复值"
 
 
 class EmptyAlert(Alert):
@@ -216,7 +215,7 @@ class EmptyAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return "Dataset is empty"
+        return "数据集为空"
 
 
 class HighCardinalityAlert(Alert):
@@ -236,9 +235,9 @@ class HighCardinalityAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            return f"[{self.column_name}] has {self.values['n_distinct']:} ({fmt_percent(self.values['p_distinct'])}) distinct values"
+            return f'[{self.column_name}] 列有 {self.values["n_distinct"]} 个 ({fmt_percent(self.values["p_distinct"])}) 不同的值'
         else:
-            return f"[{self.column_name}] has a high cardinality"
+            return f"[{self.column_name}] 列具有高基数"
 
 
 class HighCorrelationAlert(Alert):
@@ -257,13 +256,11 @@ class HighCorrelationAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            description = f"[{self.column_name}] is highly {self.values['corr']} correlated with [{self.values['fields'][0]}]"
+            description = f'[{self.column_name}] 列与 [{self.values["fields"][0]}] 列高度 {self.values["corr"]} 相关'
             if len(self.values["fields"]) > 1:
-                description += f" and {len(self.values['fields']) - 1} other fields"
+                description = f'[{self.column_name}] 列与 [{self.values["fields"][0]}] 列以及其他 {len(self.values["fields"]) - 1} 个字段高度 {self.values["corr"]} 相关'
         else:
-            return (
-                f"[{self.column_name}] has a high correlation with one or more colums"
-            )
+            return f"[{self.column_name}] 列与其他一列或多列具有高度相关性"
         return description
 
 
@@ -283,7 +280,7 @@ class ImbalanceAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        description = f"[{self.column_name}] is highly imbalanced"
+        description = f"[{self.column_name}] 列高度不平衡"
         if self.values is not None:
             return description + f" ({self.values['imbalance']})"
         else:
@@ -307,9 +304,9 @@ class InfiniteAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            return f"[{self.column_name}] has {self.values['n_infinite']} ({fmt_percent(self.values['p_infinite'])}) infinite values"
+            return f'[{self.column_name}] 列有 {self.values["n_infinite"]} ({fmt_percent(self.values["p_infinite"])}) 个无穷值'
         else:
-            return f"[{self.column_name}] has infinite values"
+            return f"[{self.column_name}] 列包含无穷值"
 
 
 class MissingAlert(Alert):
@@ -329,9 +326,9 @@ class MissingAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            return f"[{self.column_name}] {self.values['n_missing']} ({fmt_percent(self.values['p_missing'])}) missing values"
+            return f'[{self.column_name}] 列有 {self.values["n_missing"]} ({fmt_percent(self.values["p_missing"])}) 个缺失值'
         else:
-            return f"[{self.column_name}] has missing values"
+            return f"[{self.column_name}] 列包含缺失值"
 
 
 class NonStationaryAlert(Alert):
@@ -349,7 +346,7 @@ class NonStationaryAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] is non stationary"
+        return f"[{self.column_name}] 列为非平稳序列"
 
 
 class SeasonalAlert(Alert):
@@ -367,7 +364,7 @@ class SeasonalAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] is seasonal"
+        return "[{self.column_name}] 列为季节性时间序列"
 
 
 class SkewedAlert(Alert):
@@ -386,7 +383,7 @@ class SkewedAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        description = f"[{self.column_name}] is highly skewed"
+        description = f"[{self.column_name}] 列具有高偏度"
         if self.values is not None:
             return description + f"(\u03b31 = {self.values['skewness']})"
         else:
@@ -408,7 +405,7 @@ class TypeDateAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] only contains datetime values, but is categorical. Consider applying `pd.to_datetime()`"
+        return f"[{self.column_name}] 仅包含日期时间值，但被标记为分类数据。建议使用 `pd.to_datetime()`"
 
 
 class UniformAlert(Alert):
@@ -426,7 +423,7 @@ class UniformAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] is uniformly distributed"
+        return f"[{self.column_name}] 是均匀分布的"
 
 
 class UniqueAlert(Alert):
@@ -445,7 +442,7 @@ class UniqueAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] has unique values"
+        return f"[{self.column_name}] 具有唯一值"
 
 
 class UnsupportedAlert(Alert):
@@ -463,7 +460,7 @@ class UnsupportedAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] is an unsupported type, check if it needs cleaning or further analysis"
+        return f"[{self.column_name}] 是不支持的类型，请检查是否需要清洗或进一步分析"
 
 
 class ZerosAlert(Alert):
@@ -483,9 +480,9 @@ class ZerosAlert(Alert):
 
     def _get_description(self) -> str:
         if self.values is not None:
-            return f"[{self.column_name}] has {self.values['n_zeros']} ({fmt_percent(self.values['p_zeros'])}) zeros"
+            return f"[{self.column_name}] 列有 {self.values['n_zeros']} ({fmt_percent(self.values['p_zeros'])}) 个零值"
         else:
-            return f"[{self.column_name}] has predominantly zeros"
+            return f"[{self.column_name}] 列中主要是零值"
 
 
 class RejectedAlert(Alert):
@@ -503,7 +500,7 @@ class RejectedAlert(Alert):
         )
 
     def _get_description(self) -> str:
-        return f"[{self.column_name}] was rejected"
+        return f"[{self.column_name}] 列被拒绝，不会进行进一步分析"
 
 
 def check_table_alerts(table: dict) -> List[Alert]:

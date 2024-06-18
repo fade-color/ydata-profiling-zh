@@ -12,7 +12,7 @@ def render_generic(config: Settings, summary: dict) -> dict:
     info = VariableInfo(
         anchor_id=summary["varid"],
         alerts=summary["alerts"],
-        var_type="Unsupported",
+        var_type="Unsupported",  # ! 注意
         var_name=summary["varname"],
         description=summary["description"],
         style=config.html.style,
@@ -21,17 +21,17 @@ def render_generic(config: Settings, summary: dict) -> dict:
     table = Table(
         [
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },

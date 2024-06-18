@@ -32,7 +32,7 @@ def render_image(config: Settings, summary: dict) -> dict:
     Median Width        Median Height       Median Height
     Max Width           Max Height          Max Height
 
-    All dimension properties are in pixels.
+    所有尺寸属性均以像素为单位。
     """
 
     image_shape_items = [
@@ -41,14 +41,14 @@ def render_image(config: Settings, summary: dict) -> dict:
                 Table(
                     [
                         {
-                            "name": "Min width",
+                            "name": "最小宽度",
                             "value": fmt_numeric(
                                 summary["min_width"], precision=config.report.precision
                             ),
                             "alert": False,
                         },
                         {
-                            "name": "Median width",
+                            "name": "中位宽度",
                             "value": fmt_numeric(
                                 summary["median_width"],
                                 precision=config.report.precision,
@@ -56,7 +56,7 @@ def render_image(config: Settings, summary: dict) -> dict:
                             "alert": False,
                         },
                         {
-                            "name": "Max width",
+                            "name": "最大宽度",
                             "value": fmt_numeric(
                                 summary["max_width"], precision=config.report.precision
                             ),
@@ -68,14 +68,14 @@ def render_image(config: Settings, summary: dict) -> dict:
                 Table(
                     [
                         {
-                            "name": "Min height",
+                            "name": "最小高度",
                             "value": fmt_numeric(
                                 summary["min_height"], precision=config.report.precision
                             ),
                             "alert": False,
                         },
                         {
-                            "name": "Median height",
+                            "name": "中位高度",
                             "value": fmt_numeric(
                                 summary["median_height"],
                                 precision=config.report.precision,
@@ -83,7 +83,7 @@ def render_image(config: Settings, summary: dict) -> dict:
                             "alert": False,
                         },
                         {
-                            "name": "Max height",
+                            "name": "最大高度",
                             "value": fmt_numeric(
                                 summary["max_height"], precision=config.report.precision
                             ),
@@ -95,14 +95,14 @@ def render_image(config: Settings, summary: dict) -> dict:
                 Table(
                     [
                         {
-                            "name": "Min area",
+                            "name": "最小面积",
                             "value": fmt_numeric(
                                 summary["min_area"], precision=config.report.precision
                             ),
                             "alert": False,
                         },
                         {
-                            "name": "Median area",
+                            "name": "中位面积",
                             "value": fmt_numeric(
                                 summary["median_area"],
                                 precision=config.report.precision,
@@ -110,7 +110,7 @@ def render_image(config: Settings, summary: dict) -> dict:
                             "alert": False,
                         },
                         {
-                            "name": "Max area",
+                            "name": "最大面积",
                             "value": fmt_numeric(
                                 summary["max_area"], precision=config.report.precision
                             ),
@@ -121,15 +121,15 @@ def render_image(config: Settings, summary: dict) -> dict:
                 ),
             ],
             anchor_id=f"{varid}tbl",
-            name="Overview",
+            name="概览",
             sequence_type="grid",
         ),
         Image(
             scatter_series(config, summary["image_dimensions"]),
             image_format=config.plot.image_format,
-            alt="Scatter plot of image sizes",
-            caption="Scatter plot of image sizes",
-            name="Scatter plot",
+            alt="图像尺寸的散点图",
+            caption="图像尺寸的散点图",
+            name="散点图",
             anchor_id=f"{varid}image_dimensions_scatter",
         ),
         FrequencyTable(
@@ -138,7 +138,7 @@ def render_image(config: Settings, summary: dict) -> dict:
                 n=summary["n"],
                 max_number_to_print=n_freq_table_max,
             ),
-            name="Common values",
+            name="常见值",
             anchor_id=f"{varid}image_dimensions_frequency",
             redact=False,
         ),
@@ -147,7 +147,7 @@ def render_image(config: Settings, summary: dict) -> dict:
     image_shape = Container(
         image_shape_items,
         sequence_type="named_list",
-        name="Dimensions",
+        name="尺寸",
         anchor_id=f"{varid}image_dimensions",
     )
 
@@ -159,7 +159,7 @@ def render_image(config: Settings, summary: dict) -> dict:
                     n=summary["n"],
                     max_number_to_print=n_freq_table_max,
                 ),
-                name="Exif keys",
+                name="Exif键",
                 anchor_id=f"{varid}exif_keys",
                 redact=redact,
             )
@@ -185,7 +185,7 @@ def render_image(config: Settings, summary: dict) -> dict:
             Container(
                 items,
                 anchor_id=f"{varid}exif_data",
-                name="Exif data",
+                name="Exif 数据",
                 sequence_type="named_list",
             )
         )
@@ -194,7 +194,7 @@ def render_image(config: Settings, summary: dict) -> dict:
 
     image_tab = Container(
         image_items,
-        name="Image",
+        name="图像",
         sequence_type="tabs",
         anchor_id=f"{varid}image",
     )

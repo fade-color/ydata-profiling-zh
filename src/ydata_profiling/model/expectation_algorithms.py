@@ -31,7 +31,7 @@ def numeric_expectations(
             "notes": {
                 "format": "markdown",
                 "content": [
-                    "The column values should be stored in one of these types."
+                    "列值应存储为这些类型之一。"
                 ],
             }
         },

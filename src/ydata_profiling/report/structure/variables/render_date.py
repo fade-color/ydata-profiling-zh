@@ -21,7 +21,7 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
     info = VariableInfo(
         summary["varid"],
         summary["varname"],
-        "Date",
+        "日期",
         summary["alerts"],
         summary["description"],
         style=config.html.style,
@@ -30,27 +30,27 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
     table1 = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": False,
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": False,
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": False,
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": False,
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },
@@ -60,8 +60,8 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
 
     table2 = Table(
         [
-            {"name": "Minimum", "value": fmt(summary["min"]), "alert": False},
-            {"name": "Maximum", "value": fmt(summary["max"]), "alert": False},
+            {"name": "最小值", "value": fmt(summary["min"]), "alert": False},
+            {"name": "最大值", "value": fmt(summary["max"]), "alert": False},
         ],
         style=config.html.style,
     )
@@ -75,7 +75,7 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
                 date=True,
             ),
             image_format=image_format,
-            alt="Mini histogram",
+            alt="迷你直方图",
         )
     else:
         mini_histo = Image(
@@ -83,7 +83,7 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
                 config, summary["histogram"][0], summary["histogram"][1], date=True
             ),
             image_format=image_format,
-            alt="Mini histogram",
+            alt="迷你直方图",
         )
 
     template_variables["top"] = Container(
@@ -109,9 +109,9 @@ def render_date(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
             Image(
                 hist_data,
                 image_format=image_format,
-                alt="Histogram",
-                caption=f"<strong>Histogram with fixed size bins</strong> (bins={n_bins})",
-                name="Histogram",
+                alt="直方图",
+                caption=f"<strong>固定bins尺寸的直方图</strong> (bins={n_bins})",
+                name="直方图",
                 anchor_id=f"{varid}histogram",
             )
         ],

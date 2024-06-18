@@ -31,26 +31,26 @@ def render_path(config: Settings, summary: dict) -> dict:
             Table(
                 [
                     {
-                        "name": "Common prefix",
+                        "name": "常见前缀",
                         "value": fmt(summary["common_prefix"]),
                         "alert": False,
                     },
                     {
-                        "name": "Unique stems",
+                        "name": "唯一主干",  # 主干：去掉文件扩展名后剩余的部分
                         "value": fmt_numeric(
                             summary["n_stem_unique"], precision=config.report.precision
                         ),
                         "alert": False,
                     },
                     {
-                        "name": "Unique names",
+                        "name": "唯一文件名",
                         "value": fmt_numeric(
                             summary["n_name_unique"], precision=config.report.precision
                         ),
                         "alert": False,
                     },
                     {
-                        "name": "Unique extensions",
+                        "name": "唯一扩展名",
                         "value": fmt_numeric(
                             summary["n_suffix_unique"],
                             precision=config.report.precision,
@@ -58,7 +58,7 @@ def render_path(config: Settings, summary: dict) -> dict:
                         "alert": False,
                     },
                     {
-                        "name": "Unique directories",
+                        "name": "唯一父目录",
                         "value": fmt_numeric(
                             summary["n_parent_unique"],
                             precision=config.report.precision,
@@ -66,7 +66,7 @@ def render_path(config: Settings, summary: dict) -> dict:
                         "alert": False,
                     },
                     {
-                        "name": "Unique anchors",
+                        "name": "唯一锚点",
                         "value": fmt_numeric(
                             summary["n_anchor_unique"],
                             precision=config.report.precision,
@@ -78,7 +78,7 @@ def render_path(config: Settings, summary: dict) -> dict:
             )
         ],
         anchor_id=f"{varid}tbl",
-        name="Overview",
+        name="概览",
         sequence_type="list",
     )
 
@@ -86,37 +86,37 @@ def render_path(config: Settings, summary: dict) -> dict:
         path_overview_tab,
         FrequencyTable(
             template_variables["freq_table_rows"],
-            name="Full",
+            name="全路径",
             anchor_id=f"{varid}full_frequency",
             redact=redact,
         ),
         FrequencyTable(
             template_variables["freqtable_stem"],
-            name="Stem",
+            name="主干",
             anchor_id=f"{varid}stem_frequency",
             redact=redact,
         ),
         FrequencyTable(
             template_variables["freqtable_name"],
-            name="Name",
+            name="文件名",
             anchor_id=f"{varid}name_frequency",
             redact=redact,
         ),
         FrequencyTable(
             template_variables["freqtable_suffix"],
-            name="Extension",
+            name="扩展名",
             anchor_id=f"{varid}suffix_frequency",
             redact=redact,
         ),
         FrequencyTable(
             template_variables["freqtable_parent"],
-            name="Parent",
+            name="父目录",
             anchor_id=f"{varid}parent_frequency",
             redact=redact,
         ),
         FrequencyTable(
             template_variables["freqtable_anchor"],
-            name="Anchor",
+            name="锚点",
             anchor_id=f"{varid}anchor_frequency",
             redact=redact,
         ),
@@ -124,7 +124,7 @@ def render_path(config: Settings, summary: dict) -> dict:
 
     path_tab = Container(
         path_items,
-        name="Path",
+        name="路径",
         sequence_type="tabs",
         anchor_id=f"{varid}path",
     )

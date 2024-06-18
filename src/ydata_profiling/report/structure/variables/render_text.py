@@ -47,27 +47,27 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
     table = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": "n_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": "p_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },
@@ -80,7 +80,7 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
         mini_wordcloud = Image(
             plot_word_cloud(config, summary["word_counts"]),
             image_format=config.plot.image_format,
-            alt="Mini wordcloud",
+            alt="迷你词云",
         )
         top_items.append(mini_wordcloud)
     template_variables["top"] = Container(top_items, sequence_type="grid")
@@ -104,7 +104,7 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
     overview_items.append(unique_stats)
 
     if not config.vars.text.redact:
-        rows = ("1st row", "2nd row", "3rd row", "4th row", "5th row")
+        rows = ("行1", "行2", "行3", "行4", "行5")
 
         if isinstance(summary["first_rows"], list):
             sample = Table(
@@ -116,7 +116,7 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
                     }
                     for name, *value in zip(rows, *summary["first_rows"])
                 ],
-                name="Sample",
+                name="示例",
                 style=config.html.style,
             )
         else:
@@ -129,13 +129,13 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
                     }
                     for name, value in zip(rows, summary["first_rows"])
                 ],
-                name="Sample",
+                name="示例",
                 style=config.html.style,
             )
         overview_items.append(sample)
     overview = Container(
         overview_items,
-        name="Overview",
+        name="概览",
         anchor_id=f"{varid}overview",
         sequence_type="batch_grid",
         batch_size=len(overview_items),
@@ -152,7 +152,7 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
 
         fqwo = FrequencyTable(
             woc,
-            name="Common words",
+            name="常见值",
             anchor_id=f"{varid}cwo",
             redact=config.vars.text.redact,
         )
@@ -160,13 +160,13 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
         image = Image(
             plot_word_cloud(config, summary["word_counts"]),
             image_format=config.plot.image_format,
-            alt="Wordcloud",
+            alt="词云",
         )
 
         bottom_items.append(
             Container(
                 [fqwo, image],
-                name="Words",
+                name="词",
                 anchor_id=f"{varid}word",
                 sequence_type="grid",
             )
@@ -176,7 +176,7 @@ def render_text(config: Settings, summary: Dict[str, Any]) -> Dict[str, Any]:
         bottom_items.append(
             Container(
                 [unitab],
-                name="Characters",
+                name="字符",
                 anchor_id=f"{varid}characters",
                 sequence_type="grid",
             )

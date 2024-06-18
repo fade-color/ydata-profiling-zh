@@ -1,7 +1,6 @@
 from typing import List, Tuple, Union
 
 import pandas as pd
-
 from ydata_profiling.config import Settings
 from ydata_profiling.report.formatters import (
     fmt,
@@ -32,15 +31,15 @@ def render_categorical_frequency(
     frequency_table = Table(
         [
             {
-                "name": "Unique",
+                "name": "唯一值",
                 "value": fmt_number(summary["n_unique"]),
                 "hint": help(
-                    "The number of unique values (all values that occur exactly once in the dataset)."
+                    "唯一值的数量（数据集中仅出现一次的所有值）。"
                 ),
                 "alert": "n_unique" in summary["alert_fields"],
             },
             {
-                "name": "Unique (%)",
+                "name": "唯一值 (%)",
                 "value": fmt_percent(summary["p_unique"]),
                 "alert": "p_unique" in summary["alert_fields"],
             },
@@ -59,29 +58,29 @@ def render_categorical_length(
     length_table = Table(
         [
             {
-                "name": "Max length",
+                "name": "最大长度",
                 "value": fmt_number(summary["max_length"]),
                 "alert": False,
             },
             {
-                "name": "Median length",
+                "name": "中位数长度",
                 "value": fmt_number(summary["median_length"]),
                 "alert": False,
             },
             {
-                "name": "Mean length",
+                "name": "平均长度",
                 "value": fmt_numeric(
                     summary["mean_length"], precision=config.report.precision
                 ),
                 "alert": False,
             },
             {
-                "name": "Min length",
+                "name": "最小长度",
                 "value": fmt_number(summary["min_length"]),
                 "alert": False,
             },
         ],
-        name="Length",
+        name="长度",
         anchor_id=f"{varid}lengthstats",
         style=config.html.style,
     )
@@ -98,9 +97,9 @@ def render_categorical_length(
     length_histo = Image(
         hist_data,
         image_format=config.plot.image_format,
-        alt="length histogram",
-        name="Length",
-        caption="Histogram of lengths of the category",
+        alt="长度直方图",
+        name="长度",
+        caption="类别长度直方图",
         anchor_id=f"{varid}length",
     )
 
@@ -127,7 +126,7 @@ def render_categorical_unicode(
             n=_get_n(summary["category_alias_counts"]),
             max_number_to_print=n_freq_table_max,
         ),
-        name="Most occurring categories",
+        name="最常出现的类别",
         anchor_id=f"{varid}category_long_values",
         redact=False,
     )
@@ -154,7 +153,7 @@ def render_categorical_unicode(
         category_overview,
         Container(
             cats,
-            name="Most frequent character per category",
+            name="类别中最常出现字符",
             sequence_type="batch_grid",
             anchor_id=f"{varid}categories",
             batch_size=1,
@@ -168,7 +167,7 @@ def render_categorical_unicode(
             n=_get_n(summary["script_counts"]),
             max_number_to_print=n_freq_table_max,
         ),
-        name="Most occurring scripts",
+        name="最常出现的Scripts",
         anchor_id=f"{varid}script_values",
         redact=False,
     )
@@ -193,7 +192,7 @@ def render_categorical_unicode(
         script_overview,
         Container(
             scripts,
-            name="Most frequent character per script",
+            name="Scripts中最常出现字符",
             sequence_type="batch_grid",
             anchor_id=f"{varid}scripts",
             batch_size=1,
@@ -207,7 +206,7 @@ def render_categorical_unicode(
             n=_get_n(summary["block_alias_counts"]),
             max_number_to_print=n_freq_table_max,
         ),
-        name="Most occurring blocks",
+        name="最常出现的块",
         anchor_id=f"{varid}block_alias_values",
         redact=False,
     )
@@ -230,7 +229,7 @@ def render_categorical_unicode(
         block_overview,
         Container(
             blocks,
-            name="Most frequent character per block",
+            name="块中最常出现字符",
             sequence_type="batch_grid",
             anchor_id=f"{varid}blocks",
             batch_size=1,
@@ -241,45 +240,45 @@ def render_categorical_unicode(
     overview_table = Table(
         [
             {
-                "name": "Total characters",
+                "name": "总字符数",
                 "value": fmt_number(summary["n_characters"]),
                 "alert": False,
             },
             {
-                "name": "Distinct characters",
+                "name": "不同字符数",
                 "value": fmt_number(summary["n_characters_distinct"]),
                 "alert": False,
             },
             {
-                "name": "Distinct categories",
+                "name": "不同类别数",
                 "value": fmt_number(summary["n_category"]),
                 "hint": help(
-                    title="Unicode categories (click for more information)",
+                    title="Unicode 类别（点击查看更多信息）",
                     url="https://en.wikipedia.org/wiki/Unicode_character_property#General_Category",
                 ),
                 "alert": False,
             },
             {
-                "name": "Distinct scripts",
+                "name": "不同Scripts数",
                 "value": fmt_number(summary["n_scripts"]),
                 "hint": help(
-                    title="Unicode scripts (click for more information)",
+                    title="Unicode Scripts（点击查看更多信息）",
                     url="https://en.wikipedia.org/wiki/Script_(Unicode)#List_of_scripts_in_Unicode",
                 ),
                 "alert": False,
             },
             {
-                "name": "Distinct blocks",
+                "name": "不同块数",
                 "value": fmt_number(summary["n_block_alias"]),
                 "hint": help(
-                    title="Unicode blocks (click for more information)",
+                    title="Unicode Blocks（点击查看更多信息）",
                     url="https://en.wikipedia.org/wiki/Unicode_block",
                 ),
                 "alert": False,
             },
         ],
-        name="Characters and Unicode",
-        caption="The Unicode Standard assigns character properties to each code point, which can be used to analyse textual variables. ",
+        name="字符和 Unicode",
+        caption="Unicode标准为每个代码点分配字符属性，这些属性可用于分析文本变量。",
         style=config.html.style,
     )
 
@@ -292,18 +291,18 @@ def render_categorical_unicode(
                         n=summary["n_characters"],
                         max_number_to_print=n_freq_table_max,
                     ),
-                    name="Most occurring characters",
+                    name="最常出现字符",
                     anchor_id=f"{varid}character_frequency",
                     redact=config.vars.cat.redact,
                 ),
             ],
-            name="Characters",
+            name="字符",
             anchor_id=f"{varid}characters",
             sequence_type="named_list",
         ),
         Container(
             category_items,
-            name="Categories",
+            name="类别",
             anchor_id=f"{varid}categories",
             sequence_type="named_list",
         ),
@@ -355,27 +354,27 @@ def render_categorical(config: Settings, summary: dict) -> dict:
     table = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": "n_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": "p_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },
@@ -398,7 +397,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
 
     frequency_table = FrequencyTable(
         template_variables["freq_table_rows"],
-        name="Common Values",
+        name="常见值",
         anchor_id=f"{varid}common_values",
         redact=config.vars.cat.redact,
     )
@@ -420,7 +419,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
     overview_items.append(unique_stats)
 
     if not config.vars.cat.redact:
-        rows = ("1st row", "2nd row", "3rd row", "4th row", "5th row")
+        rows = ("行1", "行2", "行3", "行4", "行5")
 
         if isinstance(summary["first_rows"], list):
             sample = Table(
@@ -432,7 +431,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
                     }
                     for name, *value in zip(rows, *summary["first_rows"])
                 ],
-                name="Sample",
+                name="示例",
                 style=config.html.style,
             )
         else:
@@ -445,7 +444,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
                     }
                     for name, value in zip(rows, summary["first_rows"])
                 ],
-                name="Sample",
+                name="示例",
                 style=config.html.style,
             )
         overview_items.append(sample)
@@ -476,12 +475,12 @@ def render_categorical(config: Settings, summary: dict) -> dict:
                         if summary["n_distinct"][idx] <= max_unique
                         else HTML(
                             f"<h4 class='indent'>{config.html.style._labels[idx]}</h4><br />"
-                            f"<em>Number of variable categories passes threshold (<code>config.plot.cat_freq.max_unique</code>)</em>"
+                            f"<em>变量类别数量超过阈值 (<code>{config.plot.cat_freq.max_unique}</code>)</em>"
                         )
                         for idx, s in enumerate(summary["value_counts_without_nan"])
                     ],
                     anchor_id=f"{varid}cat_frequency_plot",
-                    name="Common Values (Plot)",
+                    name="常见值 (图)",
                     sequence_type="batch_grid",
                     batch_size=len(config.html.style._labels),
                 )
@@ -496,8 +495,8 @@ def render_categorical(config: Settings, summary: dict) -> dict:
                         summary["value_counts_without_nan"],
                     ),
                     image_format=image_format,
-                    alt="Common Values (Plot)",
-                    name="Common Values (Plot)",
+                    alt="常见值（图）",
+                    name="常见值（图）",
                     anchor_id=f"{varid}cat_frequency_plot",
                 )
             )
@@ -505,7 +504,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
     bottom_items = [
         Container(
             overview_items,
-            name="Overview",
+            name="概览",
             anchor_id=f"{varid}overview",
             sequence_type="batch_grid",
             batch_size=len(overview_items),
@@ -513,7 +512,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
         ),
         Container(
             string_items,
-            name="Categories",
+            name="类别",
             anchor_id=f"{varid}string",
             sequence_type="named_list"
             if len(config.html.style._labels) > 1
@@ -532,7 +531,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
 
         fqwo = FrequencyTable(
             woc,
-            name="Common words",
+            name="常见值",
             anchor_id=f"{varid}cwo",
             redact=config.vars.cat.redact,
         )
@@ -540,7 +539,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
         bottom_items.append(
             Container(
                 [fqwo],
-                name="Words",
+                name="词",
                 anchor_id=f"{varid}word",
                 sequence_type="grid",
             )
@@ -551,7 +550,7 @@ def render_categorical(config: Settings, summary: dict) -> dict:
         bottom_items.append(
             Container(
                 [unitab],
-                name="Characters",
+                name="字符",
                 anchor_id=f"{varid}characters",
                 sequence_type="grid",
             )

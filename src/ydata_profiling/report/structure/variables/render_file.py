@@ -25,17 +25,17 @@ def render_file(config: Settings, summary: dict) -> dict:
             Image(
                 histogram(config, *summary["histogram_file_size"]),
                 image_format=image_format,
-                alt="Size",
-                caption=f"<strong>Histogram with fixed size bins of file sizes (in bytes)</strong> (bins={len(summary['histogram_file_size'][1]) - 1})",
-                name="File size",
+                alt="大小",
+                caption=f"<strong>文件大小（以字节为单位）的固定bins尺寸的直方图</strong> (bins={len(summary['histogram_file_size'][1]) - 1})",
+                name="文件大小",
                 anchor_id=f"{varid}file_size_histogram",
             )
         )
 
     file_dates = {
-        "file_created_time": "Created",
-        "file_accessed_time": "Accessed",
-        "file_modified_time": "Modified",
+        "file_created_time": "创建时间",
+        "file_accessed_time": "访问时间",
+        "file_modified_time": "修改时间",
     }
 
     for file_date_id, description in file_dates.items():
@@ -55,7 +55,7 @@ def render_file(config: Settings, summary: dict) -> dict:
 
     file_tab = Container(
         file_tabs,
-        name="File",
+        name="文件",
         sequence_type="tabs",
         anchor_id=f"{varid}file",
     )

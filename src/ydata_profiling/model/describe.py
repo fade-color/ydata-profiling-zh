@@ -63,7 +63,7 @@ def describe(
 
     with tqdm(
         total=number_of_tasks,
-        desc="Summarize dataset",
+        desc="汇总数据集",
         disable=not config.progress_bar,
         position=0,
     ) as pbar:
@@ -75,7 +75,7 @@ def describe(
             config, df, summarizer, typeset, pbar
         )
 
-        pbar.set_postfix_str("Get variable types")
+        pbar.set_postfix_str("获取变量类型")
         pbar.total += 1
         variables = {
             column: description["type"]
@@ -94,7 +94,7 @@ def describe(
         pbar.update()
 
         # Table statistics
-        table_stats = progress(get_table_stats, pbar, "Get dataframe statistics")(
+        table_stats = progress(get_table_stats, pbar, "获取 DataFrame 统计信息")(
             config, df, series_description
         )
 
@@ -107,7 +107,7 @@ def describe(
                 correlation_name: progress(
                     calculate_correlation,
                     pbar,
-                    f"Calculate {correlation_name} correlation",
+                    f"计算 {correlation_name} 相关性",
                 )(config, df, correlation_name, series_description)
                 for correlation_name in correlation_names
             }
@@ -120,7 +120,7 @@ def describe(
             correlations = {}
 
         # Scatter matrix
-        pbar.set_postfix_str("Get scatter matrix")
+        pbar.set_postfix_str("获取散点矩阵")
         scatter_tasks = get_scatter_tasks(config, interval_columns)
         pbar.total += len(scatter_tasks)
         scatter_matrix: Dict[Any, Dict[Any, Any]] = {
@@ -135,7 +135,7 @@ def describe(
         missing_map = get_missing_active(config, table_stats)
         pbar.total += len(missing_map)
         missing = {
-            name: progress(get_missing_diagram, pbar, f"Missing diagram {name}")(
+            name: progress(get_missing_diagram, pbar, f"缺少图表 {name}")(
                 config, df, settings
             )
             for name, settings in missing_map.items()
@@ -143,7 +143,7 @@ def describe(
         missing = {name: value for name, value in missing.items() if value is not None}
 
         # Sample
-        pbar.set_postfix_str("Take sample")
+        pbar.set_postfix_str("取样")
         if sample is None:
             samples = get_sample(config, df)
         else:
@@ -151,26 +151,26 @@ def describe(
         pbar.update()
 
         # Duplicates
-        metrics, duplicates = progress(get_duplicates, pbar, "Detecting duplicates")(
+        metrics, duplicates = progress(get_duplicates, pbar, "检测重复项")(
             config, df, supported_columns
         )
         table_stats.update(metrics)
 
-        alerts = progress(get_alerts, pbar, "Get alerts")(
+        alerts = progress(get_alerts, pbar, "获取数据预警")(
             config, table_stats, series_description, correlations
         )
 
         if config.vars.timeseries.active:
             tsindex_description = get_time_index_description(config, df, table_stats)
 
-        pbar.set_postfix_str("Get reproduction details")
+        pbar.set_postfix_str("获取重现详情")
         package = {
             "ydata_profiling_version": __version__,
             "ydata_profiling_config": config.json(),
         }
         pbar.update()
 
-        pbar.set_postfix_str("Completed")
+        pbar.set_postfix_str("完成")
 
         date_end = datetime.utcnow()
 

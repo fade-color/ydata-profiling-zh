@@ -169,7 +169,7 @@ def render_variables_section(
 
         bottom = None
         if "bottom" in template_variables and template_variables["bottom"] is not None:
-            btn = ToggleButton("More details", anchor_id=template_variables["varid"])
+            btn = ToggleButton("详细信息", anchor_id=template_variables["varid"])
             bottom = Collapse(btn, template_variables["bottom"])
 
         var = Variable(
@@ -216,7 +216,7 @@ def get_duplicates_items(
             items.append(
                 Duplicate(
                     duplicate=duplicates,
-                    name="Most frequently occurring",
+                    name="最常出现",
                     anchor_id="duplicates",
                 )
             )
@@ -237,7 +237,7 @@ def get_definition_items(definitions: pd.DataFrame) -> Sequence[Renderable]:
         items.append(
             Duplicate(
                 duplicate=definitions,
-                name="Columns",
+                name="列",
                 anchor_id="definitions",
             )
         )
@@ -245,7 +245,7 @@ def get_definition_items(definitions: pd.DataFrame) -> Sequence[Renderable]:
 
 
 def get_sample_items(config: Settings, sample: dict) -> List[Renderable]:
-    """Create the list of sample items
+    """创建示例项目列表
 
     Args:
         config: settings object
@@ -326,7 +326,7 @@ def get_interactions(config: Settings, interactions: dict) -> list:
                             if zplot != ""
                             else HTML(
                                 f"<h4 class='indent'>{config.html.style._labels[idx]}</h4><br />"
-                                f"<em>Interaction plot not present for dataset</em>"
+                                f"<em>数据集不存在交互图</em>"
                             )
                             for idx, zplot in enumerate(splot)
                         ],
@@ -350,7 +350,7 @@ def get_interactions(config: Settings, interactions: dict) -> list:
 
 
 def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
-    """Generate a HTML report from summary statistics and a given sample.
+    """从摘要统计数据和给定样本生成一个HTML报告。
 
     Args:
       config: report Settings object
@@ -361,7 +361,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
     """
     disable_progress_bar = not config.progress_bar
     with tqdm(
-        total=1, desc="Generate report structure", disable=disable_progress_bar
+        total=1, desc="生成报告结构", disable=disable_progress_bar
     ) as pbar:
         alerts = summary.alerts
 
@@ -369,7 +369,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
             Container(
                 get_dataset_items(config, summary, alerts),
                 sequence_type="tabs",
-                name="Overview",
+                name="概览",
                 anchor_id="overview",
             ),
         ]
@@ -377,7 +377,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
         if len(summary.variables) > 0:
             section_items.append(
                 Dropdown(
-                    name="Variables",
+                    name="变量",
                     anchor_id="variables-dropdown",
                     id="variables-dropdown",
                     is_row=True,
@@ -386,7 +386,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
                     item=Container(
                         render_variables_section(config, summary),
                         sequence_type="accordion",
-                        name="Variables",
+                        name="变量",
                         anchor_id="variables",
                     ),
                 )
@@ -398,7 +398,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
                 Container(
                     scatter_items,
                     sequence_type="tabs" if len(scatter_items) <= 10 else "select",
-                    name="Interactions",
+                    name="相互作用",
                     anchor_id="interactions",
                 ),
             )
@@ -413,7 +413,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
                 Container(
                     missing_items,
                     sequence_type="tabs",
-                    name="Missing values",
+                    name="缺失值",
                     anchor_id="missing",
                 )
             )
@@ -424,7 +424,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
                 Container(
                     items=sample_items,
                     sequence_type="tabs",
-                    name="Sample",
+                    name="示例",
                     anchor_id="sample",
                 )
             )
@@ -436,7 +436,7 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
                     items=duplicate_items,
                     sequence_type="batch_grid",
                     batch_size=len(duplicate_items),
-                    name="Duplicate rows",
+                    name="重复行",
                     anchor_id="duplicate",
                 )
             )
@@ -451,6 +451,6 @@ def get_report_structure(config: Settings, summary: BaseDescription) -> Root:
 
     footer = HTML(
         content='Report generated by <a href="https://ydata.ai/?utm_source=opensource&utm_medium=pandasprofiling&utm_campaign=report">YData</a>.'
-    )
+    )  # ! 版权信息
 
     return Root("Root", sections, footer, style=config.html.style)

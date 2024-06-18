@@ -37,27 +37,27 @@ def render_boolean(config: Settings, summary: dict) -> dict:
     table = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": "n_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": "p_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },
@@ -79,7 +79,7 @@ def render_boolean(config: Settings, summary: dict) -> dict:
     items: List[Renderable] = [
         FrequencyTable(
             template_variables["freq_table_rows"],
-            name="Common Values (Table)",
+            name="常见数值（表）",
             anchor_id=f"{varid}frequency_table",
             redact=False,
         )
@@ -106,7 +106,7 @@ def render_boolean(config: Settings, summary: dict) -> dict:
                         for idx, s in enumerate(summary["value_counts_without_nan"])
                     ],
                     anchor_id=f"{varid}cat_frequency_plot",
-                    name="Common Values (Plot)",
+                    name="常见值（图）",
                     sequence_type="batch_grid",
                     batch_size=len(config.html.style._labels),
                 )
@@ -119,8 +119,8 @@ def render_boolean(config: Settings, summary: dict) -> dict:
                         summary["value_counts_without_nan"],
                     ),
                     image_format=image_format,
-                    alt="Common Values (Plot)",
-                    name="Common Values (Plot)",
+                    alt="常见值（图）",
+                    name="常见值（图）",
                     anchor_id=f"{varid}cat_frequency_plot",
                 )
             )

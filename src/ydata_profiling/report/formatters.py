@@ -305,17 +305,17 @@ def fmt(value: Any) -> str:
 @list_args
 def fmt_monotonic(value: int) -> str:
     if value == 2:
-        return "Strictly increasing"
+        return "严格递增"
     elif value == 1:
-        return "Increasing"
+        return "递增"
     elif value == 0:
-        return "Not monotonic"
+        return "非单调"
     elif value == -1:
-        return "Decreasing"
+        return "递减"
     elif value == -2:
-        return "Strictly decreasing"
+        return "严格递减"
     else:
-        raise ValueError("Value should be integer ranging from -2 to 2.")
+        raise ValueError("值应为从-2到2的整数。")
 
 
 def help(title: str, url: Optional[str] = None) -> str:

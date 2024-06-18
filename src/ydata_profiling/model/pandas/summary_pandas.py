@@ -89,7 +89,7 @@ def pandas_get_series_descriptions(
 
     if pool_size == 1:
         for arg in args:
-            pbar.set_postfix_str(f"Describe variable:{arg[0]}")
+            pbar.set_postfix_str(f"描述变量：{arg[0]}")
             column, description = multiprocess_1d(arg)
             series_description[column] = description
             pbar.update()
@@ -99,7 +99,7 @@ def pandas_get_series_descriptions(
             for i, (column, description) in enumerate(
                 executor.imap_unordered(multiprocess_1d, args)
             ):
-                pbar.set_postfix_str(f"Describe variable:{column}")
+                pbar.set_postfix_str(f"描述变量：{column}")
                 series_description[column] = description
                 pbar.update()
 

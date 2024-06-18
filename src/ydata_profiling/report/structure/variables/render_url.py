@@ -30,13 +30,13 @@ def render_url(config: Settings, summary: dict) -> dict:
 
     full_frequency_table = FrequencyTable(
         template_variables["freq_table_rows"],
-        name="Full",
+        name="全",
         anchor_id=f"{varid}full_frequency",
         redact=redact,
     )
     scheme_frequency_table = FrequencyTable(
         template_variables["freqtable_scheme"],
-        name="Scheme",
+        name="表",
         anchor_id=f"{varid}scheme_frequency",
         redact=redact,
     )
@@ -48,19 +48,19 @@ def render_url(config: Settings, summary: dict) -> dict:
     )
     path_frequency_table = FrequencyTable(
         template_variables["freqtable_path"],
-        name="Path",
+        name="路径",
         anchor_id=f"{varid}path_frequency",
         redact=redact,
     )
     query_frequency_table = FrequencyTable(
         template_variables["freqtable_query"],
-        name="Query",
+        name="查询",
         anchor_id=f"{varid}query_frequency",
         redact=redact,
     )
     fragment_frequency_table = FrequencyTable(
         template_variables["freqtable_fragment"],
-        name="Fragment",
+        name="片段",
         anchor_id=f"{varid}fragment_frequency",
         redact=redact,
     )
@@ -90,27 +90,27 @@ def render_url(config: Settings, summary: dict) -> dict:
     table = Table(
         [
             {
-                "name": "Distinct",
+                "name": "不同值",
                 "value": fmt(summary["n_distinct"]),
                 "alert": "n_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Distinct (%)",
+                "name": "不同值 (%)",
                 "value": fmt_percent(summary["p_distinct"]),
                 "alert": "p_distinct" in summary["alert_fields"],
             },
             {
-                "name": "Missing",
+                "name": "缺失值",
                 "value": fmt(summary["n_missing"]),
                 "alert": "n_missing" in summary["alert_fields"],
             },
             {
-                "name": "Missing (%)",
+                "name": "缺失值 (%)",
                 "value": fmt_percent(summary["p_missing"]),
                 "alert": "p_missing" in summary["alert_fields"],
             },
             {
-                "name": "Memory size",
+                "name": "内存占用",
                 "value": fmt_bytesize(summary["memory_size"]),
                 "alert": False,
             },

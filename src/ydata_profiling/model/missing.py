@@ -35,20 +35,20 @@ def get_missing_active(config: Settings, table_stats: dict) -> Dict[str, Any]:
     missing_map = {
         "bar": {
             "min_missing": 0,
-            "name": "Count",
-            "caption": "A simple visualization of nullity by column.",
+            "name": "总数",
+            "caption": "按列简单可视化空值。",
             "function": missing_bar,
         },
         "matrix": {
             "min_missing": 0,
-            "name": "Matrix",
-            "caption": "Nullity matrix is a data-dense display which lets you quickly visually pick out patterns in data completion.",
+            "name": "矩阵",
+            "caption": "无效矩阵是一种数据密集显示，可以让您快速直观地识别出数据完整性中的模式。",
             "function": missing_matrix,
         },
         "heatmap": {
             "min_missing": 2,
-            "name": "Heatmap",
-            "caption": "The correlation heatmap measures nullity correlation: how strongly the presence or absence of one variable affects the presence of another.",
+            "name": "热力图",
+            "caption": "相关性热力图衡量了空值相关性：一个变量的存在或缺失对另一个变量的存在产生影响程度。",
             "function": missing_heatmap,
         },
     }
@@ -76,12 +76,11 @@ def handle_missing(name: str, fn: Callable) -> Callable:
     def inner(*args, **kwargs) -> Any:
         def warn_missing(missing_name: str, error: str) -> None:
             warnings.warn(
-                f"""There was an attempt to generate the {missing_name} missing values diagrams, but this failed.
-To hide this warning, disable the calculation
-(using `df.profile_report(missing_diagrams={{"{missing_name}": False}}`)
-If this is problematic for your use case, please report this as an issue:
+                f"""尝试生成 {missing_name} 缺失值图表时失败。要隐藏此警告，请禁用计算
+（使用 `df.profile_report(missing_diagrams={{"{missing_name}": False}}`)
+如果这对您的使用案例有问题，请将其报告为一个问题：
 https://github.com/ydataai/ydata-profiling/issues
-(include the error message: '{error}')"""
+（包括错误信息: '{error}'）"""
             )
 
         try:

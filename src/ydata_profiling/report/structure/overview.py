@@ -26,19 +26,19 @@ from ydata_profiling.visualisation.plot import plot_overview_timeseries
 def get_dataset_overview(config: Settings, summary: BaseDescription) -> Renderable:
     table_metrics = [
         {
-            "name": "Number of variables",
+            "name": "变量数量",
             "value": fmt_number(summary.table["n_var"]),
         },
         {
-            "name": "Number of observations",
+            "name": "观察次数",
             "value": fmt_number(summary.table["n"]),
         },
         {
-            "name": "Missing cells",
+            "name": "缺失数量",
             "value": fmt_number(summary.table["n_cells_missing"]),
         },
         {
-            "name": "Missing cells (%)",
+            "name": "缺失数量 (%)",
             "value": fmt_percent(summary.table["p_cells_missing"]),
         },
     ]
@@ -46,11 +46,11 @@ def get_dataset_overview(config: Settings, summary: BaseDescription) -> Renderab
         table_metrics.extend(
             [
                 {
-                    "name": "Duplicate rows",
+                    "name": "重复行",
                     "value": fmt_number(summary.table["n_duplicates"]),
                 },
                 {
-                    "name": "Duplicate rows (%)",
+                    "name": "重复行 (%)",
                     "value": fmt_percent(summary.table["p_duplicates"]),
                 },
             ]
@@ -59,18 +59,18 @@ def get_dataset_overview(config: Settings, summary: BaseDescription) -> Renderab
         table_metrics.extend(
             [
                 {
-                    "name": "Total size in memory",
+                    "name": "占用内存",
                     "value": fmt_bytesize(summary.table["memory_size"]),
                 },
                 {
-                    "name": "Average record size in memory",
+                    "name": "平均记录大小",
                     "value": fmt_bytesize(summary.table["record_size"]),
                 },
             ]
         )
 
     dataset_info = Table(
-        table_metrics, name="Dataset statistics", style=config.html.style
+        table_metrics, name="数据集统计", style=config.html.style
     )
 
     dataset_types = Table(
@@ -81,14 +81,14 @@ def get_dataset_overview(config: Settings, summary: BaseDescription) -> Renderab
             }
             for type_name, count in summary.table["types"].items()
         ],
-        name="Variable types",
+        name="变量类型",
         style=config.html.style,
     )
 
     return Container(
         [dataset_info, dataset_types],
         anchor_id="dataset_overview",
-        name="Overview",
+        name="概览",
         sequence_type="grid",
     )
 
@@ -113,14 +113,14 @@ def get_dataset_schema(config: Settings, metadata: dict) -> Container:
         if "copyright_year" not in metadata:
             about_dataset.append(
                 {
-                    "name": "Copyright",
+                    "name": "版权",
                     "value": fmt(f"(c) {metadata['copyright_holder']}"),
                 }
             )
         else:
             about_dataset.append(
                 {
-                    "name": "Copyright",
+                    "name": "版权",
                     "value": fmt(
                         f"(c) {metadata['copyright_holder']} {metadata['copyright_year']}"
                     ),
@@ -131,19 +131,19 @@ def get_dataset_schema(config: Settings, metadata: dict) -> Container:
         [
             Table(
                 about_dataset,
-                name="Dataset",
+                name="数据集",
                 anchor_id="metadata_dataset",
                 style=config.html.style,
             )
         ],
-        name="Dataset",
+        name="数据集",
         anchor_id="dataset",
         sequence_type="grid",
     )
 
 
 def get_dataset_reproduction(config: Settings, summary: BaseDescription) -> Renderable:
-    """Dataset reproduction part of the report
+    """报告的数据集再现部分
 
     Args:
         config: settings object
@@ -160,7 +160,7 @@ def get_dataset_reproduction(config: Settings, summary: BaseDescription) -> Rend
     duration = summary.analysis.duration
 
     @list_args
-    def fmt_version(version: str) -> str:
+    def fmt_version(version: str) -> str:  # ! 版权信息
         return f'<a href="https://github.com/ydataai/ydata-profiling">ydata-profiling v{version}</a>'
 
     @list_args
@@ -169,20 +169,20 @@ def get_dataset_reproduction(config: Settings, summary: BaseDescription) -> Rend
 
     reproduction_table = Table(
         [
-            {"name": "Analysis started", "value": fmt(date_start)},
-            {"name": "Analysis finished", "value": fmt(date_end)},
-            {"name": "Duration", "value": fmt_timespan(duration)},
-            {"name": "Software version", "value": fmt_version(version)},
-            {"name": "Download configuration", "value": fmt_config(config_file)},
+            {"name": "分析开始", "value": fmt(date_start)},
+            {"name": "分析完成", "value": fmt(date_end)},
+            {"name": "持续时间", "value": fmt_timespan(duration)},
+            {"name": "软件版本", "value": fmt_version(version)},
+            {"name": "下载配置", "value": fmt_config(config_file)},
         ],
-        name="Reproduction",
+        name="再现",
         anchor_id="overview_reproduction",
         style=config.html.style,
     )
 
     return Container(
         [reproduction_table],
-        name="Reproduction",
+        name="再现",
         anchor_id="reproduction",
         sequence_type="grid",
     )
@@ -205,7 +205,7 @@ def get_dataset_column_definitions(config: Settings, definitions: dict) -> Conta
                 {"name": column, "value": fmt(value)}
                 for column, value in definitions.items()
             ],
-            name="Variable descriptions",
+            name="变量描述",
             anchor_id="variable_definition_table",
             style=config.html.style,
         )
@@ -213,14 +213,14 @@ def get_dataset_column_definitions(config: Settings, definitions: dict) -> Conta
 
     return Container(
         variable_descriptions,
-        name="Variables",
+        name="变量",
         anchor_id="variable_descriptions",
         sequence_type="grid",
     )
 
 
 def get_dataset_alerts(config: Settings, alerts: list) -> Alerts:
-    """Obtain the alerts for the report
+    """获取报告的警报
 
     Args:
         config: settings object
@@ -258,7 +258,7 @@ def get_dataset_alerts(config: Settings, alerts: list) -> Alerts:
 
         return Alerts(
             alerts=combined_alerts,
-            name=f"Alerts ({count})",
+            name=f"警报 ({count})",
             anchor_id="alerts",
             style=config.html.style,
         )
@@ -266,7 +266,7 @@ def get_dataset_alerts(config: Settings, alerts: list) -> Alerts:
     count = len([alert for alert in alerts if alert.alert_type != AlertType.REJECTED])
     return Alerts(
         alerts=alerts,
-        name=f"Alerts ({count})",
+        name=f"警报 ({count})",
         anchor_id="alerts",
         style=config.html.style,
     )
@@ -283,28 +283,28 @@ def get_timeseries_items(config: Settings, summary: BaseDescription) -> Containe
     assert isinstance(summary.time_index_analysis, TimeIndexAnalysis)
     table_stats = [
         {
-            "name": "Number of series",
+            "name": "序列数量",
             "value": fmt_number(summary.time_index_analysis.n_series),
         },
         {
-            "name": "Time series length",
+            "name": "时间序列长度",
             "value": fmt_number(summary.time_index_analysis.length),
         },
         {
-            "name": "Starting point",
+            "name": "开始点",
             "value": fmt_tsindex_limit(summary.time_index_analysis.start),
         },
         {
-            "name": "Ending point",
+            "name": "结束点",
             "value": fmt_tsindex_limit(summary.time_index_analysis.end),
         },
         {
-            "name": "Period",
+            "name": "周期",
             "value": fmt_timespan_timedelta(summary.time_index_analysis.period),
         },
     ]
 
-    ts_info = Table(table_stats, name="Timeseries statistics", style=config.html.style)
+    ts_info = Table(table_stats, name="时间序列统计", style=config.html.style)
 
     dpi_bak = config.plot.dpi
     config.plot.dpi = 300
@@ -312,14 +312,14 @@ def get_timeseries_items(config: Settings, summary: BaseDescription) -> Containe
         plot_overview_timeseries(config, summary.variables),
         image_format=config.plot.image_format,
         alt="ts_plot",
-        name="Original",
+        name="原始",
         anchor_id="ts_plot_overview",
     )
     timeseries_scaled = ImageWidget(
         plot_overview_timeseries(config, summary.variables, scale=True),
         image_format=config.plot.image_format,
         alt="ts_plot_scaled",
-        name="Scaled",
+        name="缩放",
         anchor_id="ts_plot_scaled_overview",
     )
     config.plot.dpi = dpi_bak
@@ -333,13 +333,13 @@ def get_timeseries_items(config: Settings, summary: BaseDescription) -> Containe
     return Container(
         [ts_info, ts_tab],
         anchor_id="timeseries_overview",
-        name="Time Series",
+        name="时间序列",
         sequence_type="grid",
     )
 
 
 def get_dataset_items(config: Settings, summary: BaseDescription, alerts: list) -> list:
-    """Returns the dataset overview (at the top of the report)
+    """返回数据集概述（位于报告顶部）
 
     Args:
         config: settings object
