@@ -44,7 +44,7 @@ def render_categorical_frequency(
                 "alert": "p_unique" in summary["alert_fields"],
             },
         ],
-        name="Unique",
+        name="唯一值",
         anchor_id=f"{varid}_unique_stats",
         style=config.html.style,
     )

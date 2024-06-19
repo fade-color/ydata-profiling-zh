@@ -34,7 +34,7 @@ def describe(
     typeset: VisionsTypeset,
     sample: Optional[dict] = None,
 ) -> BaseDescription:
-    """Calculate the statistics for each series in this DataFrame.
+    """计算该 DataFrame 中每个序列的统计数据。
 
     Args:
         config: report Settings object
@@ -44,17 +44,17 @@ def describe(
         sample: optional, dict with custom sample
 
     Returns:
-        This function returns a dictionary containing:
-            - table: overall statistics.
-            - variables: descriptions per series.
-            - correlations: correlation matrices.
-            - missing: missing value diagrams.
-            - alerts: direct special attention to these patterns in your data.
+        该函数返回一个字典，其中包含：
+            - table: 总体统计数据。
+            - variables: 每个序列的描述。
+            - correlations: 相关性矩阵。
+            - missing: 缺失值图。
+            - alerts: 特别注意数据中的这些模式。
             - package: package details.
     """
 
     if df is None:
-        raise ValueError("Can not describe a `lazy` ProfileReport without a DataFrame.")
+        raise ValueError("无法在没有 DataFrame 的情况下描述一个 `lazy` ProfileReport。")
 
     check_dataframe(df)
     df = preprocess(config, df)
